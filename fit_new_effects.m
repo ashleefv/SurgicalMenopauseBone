@@ -38,29 +38,36 @@ if_new_effects=1; % turn on new effects
 % Case 1: fitting to all data 
 kguess=[15,0.001,0.5]; % Intial guess for all params
 lb=[0,1e-5,0]; % lower bound
-ub=[1e2,1,1e2];% upper bound
+ub=[1e2,1,1e2];% upper bbestound
 [sorted_t_S_vector,sorting] = sort(t_S*365); 
 sorted_BMD_S_vector = BMD_S(sorting); 
-
+tsolve=[linspace(tstart,t_ref-1,10),t_ref,linspace(t_ref+1,tend,10)];
+initialcond = get_initial_condition(params,if_new_effects);
 
  OPTIONS = optimoptions('lsqcurvefit','StepTolerance',1e-16,...
- 'FunctionTolerance',1e-14,'optimalitytolerance', 1e-6,'MaxFunctionEvaluations',2000,'Algorithm','levenberg-marquardt');
+ 'FunctionTolerance',1e-14,'optimalitytolerance', 1e-14,'MaxFunctionEvaluations',2000,'Algorithm','levenberg-marquardt');
+ % OPTIONS = optimoptions('lsqcurvefit','StepTolerance',1e-8,...
+ % 'FunctionTolerance',1e-8,'optimalitytolerance', 1e-8,'MaxIterations',5000,'MaxFunctionEvaluations',2000,'Algorithm','levenberg-marquardt');
 
-initialcond = get_initial_condition(params,if_new_effects);
-[best_params_all,~,~,~] = lsqcurvefit(@(k,tdata) ...
-    new_params_err(k,params,initialcond, tstart:1:tend,t_ref,  sorted_t_S_vector/365, if_surgical,...
+
+[best_params_all,fit_error_long,~,~] = lsqcurvefit(@(k,tdata) ...
+    new_params_err(k,params,initialcond, tsolve,t_ref,  sorted_t_S_vector/365, if_surgical,...
    if_new_effects) , kguess,   sorted_t_S_vector/365,sorted_BMD_S_vector/100,lb,ub,OPTIONS);
+"FIT error long is "
+fit_error_long
+
 
 % Case 2: fitting to data up to 15 years 
 sorted_BMD_S_vector=sorted_BMD_S_vector(sorted_t_S_vector/365<15);
 sorted_t_S_vector=sorted_t_S_vector(sorted_t_S_vector/365<15);
 
 initialcond = get_initial_condition(params,if_new_effects);
-[best_params_short,~,~,~] = lsqcurvefit(@(k,tdata) ...
+[best_params_short,fit_error_short,~,~] = lsqcurvefit(@(k,tdata) ...
     new_params_err(k,params,initialcond, tstart:1:tend,t_ref,  sorted_t_S_vector/365, if_surgical,...
    if_new_effects) , kguess,   sorted_t_S_vector/365,sorted_BMD_S_vector/100,lb,ub,OPTIONS);
 
-
+"FIT error short is "
+fit_error_short
 
 % save data for use in later scripts.
 save('fit_effects_long.mat',"best_params_all",'-mat')
@@ -110,6 +117,3 @@ for i=1:length(T)
 end
 
 end
-
-
-
