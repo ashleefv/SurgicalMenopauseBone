@@ -62,41 +62,6 @@ figure_1=figure('units','inch','position',[0,0,16,6]);
 tt = tiledlayout(1,3); 
 
 
-% Create the primary axis in the tile
-axPrimary = nexttile(tt);
-box(axPrimary, 'on');
-axis(axPrimary, 'equal'); 
-
-% Generate estrogen concentrations in both natural and surgical cases. 
-t=linspace(0,57*365,1000); % 57 years
-es=estrogen(t,1,params.t_e,params.tau_e,params.k_dec,params.k_syn);
-en=estrogen(t,0,params.t_e,params.tau_e,params.k_dec,params.k_syn);
-
-plot(axPrimary, t/365-params.t_e/365,en,'r','LineWidth',2); hold on
-plot(axPrimary,t/365-params.t_e/365,es,'k','LineWidth',2)
-title({'(a)'})
-xlim([-2,30])
-% Choose section to isolate
-xSection = [0, 25];  
-ySection = [20, 35];  
-
-xlabel('Years since menopause onset')
-ylabel('Relative blood estrogen conc.')
-
-leg=legend('Natural menopause','Surgical menopause');
-leg.Location="north";
-axSecondary = axes('Position',[0.15 0.5 0.13 0.22], 'Box', 'on'); 
-axis(axSecondary, 'equal');
-
-% Zoom in to the 10 days around onset
-t=linspace(params.t_e-10,params.t_e+10,1000);
-es=estrogen(t,1,params.t_e,params.tau_e,params.k_dec,params.k_syn);
-en=estrogen(t,0,params.t_e,params.tau_e,params.k_dec,params.k_syn);
-
-plot(axSecondary, t-params.t_e,en,'r',t-params.t_e,es,'k','LineWidth',2)
-xlim([-1,3])
-xlabel('Days since menopause onset')
-title('')
 
 
 % t=tiledlayout(1,2);
@@ -127,7 +92,7 @@ ylim([35,116])
 xlim([0,30])
 
 
-title('(b)')
+title('(a)')
 xlabel('Years since menopause onset')
 ylabel('Normalised BMD \%')
 
@@ -164,7 +129,7 @@ errorbar(t_hajidakis/365-t_hajidakis_onset_S, BMD_hajidakis*100 ,BMD_hajidakis_S
 
 
 plot(t,xS_exd*t+100,'k-.','DisplayName','Fit: -2.01\%/yr')
-title('(c)')
+title('(b)')
 xlabel('Years since menopause onset')
 ylabel('Normalised BMD \%')
 
@@ -178,6 +143,57 @@ leg=legend;
 title(leg,'Surgical menopause')
 leg.Location='south';
 leg.NumColumns = 2; 
+% Create the primary axis in the tile
+axPrimary = nexttile(tt);
+box(axPrimary, 'on');
+axis(axPrimary, 'equal'); 
+% Generate estrogen concentrations in both natural and surgical cases. 
+t=linspace(0,57*365,1000); % 57 years
+% t=linspace(params.t_e-10,params.t_e+10,1000);
+es=zeros(size(t));
+en=zeros(size(t));
+for i=1:length(t)
+    es(i)=estrogen(t(i),1,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+        en(i)=estrogen(t(i),0,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+end
+%
+% es=estrogen(t,1,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+% % en=estrogen(t,0,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+
+plot(axPrimary, t/365-params.t_e/365,en,'r','LineWidth',2); hold on
+plot(axPrimary,t/365-params.t_e/365,es,'k','LineWidth',2)
+title({'(c)'})
+xlim([-2,30])
+% Choose section to isolate
+xSection = [0, 25];  
+ySection = [20, 35];  
+
+xlabel('Years since menopause onset')
+ylabel('Relative blood estrogen conc.')
+
+leg=legend('Natural menopause','Surgical menopause');
+leg.Location="north";
+axSecondary = axes('Position',[0.8 0.5 0.13 0.22], 'Box', 'on'); 
+axis(axSecondary, 'equal');
+
+% Zoom in to the 10 days around onset
+
+t=linspace(params.t_e-10,params.t_e+10,1000);
+es=zeros(size(t));
+en=zeros(size(t));
+for i=1:length(t)
+    es(i)=estrogen(t(i),1,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+        en(i)=estrogen(t(i),0,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+end
+%
+plot(axSecondary, t-params.t_e,en,'r',t-params.t_e,es,'k','LineWidth',2)
+xlim([-1,3])
+xlabel('Days since menopause onset')
+title('')
+
+
+
+
 
 tt.TileSpacing = 'compact';
 tt.Padding = 'compact';
@@ -185,6 +201,10 @@ tt.Padding = 'compact';
 set(gcf,'color','w')
 fig = figure(1); 
 fig.Position = [0.4167 0.8611 17.6389 6.8194]; 
+
+
+
+
 % save figure manually and move legend panel 3 right
 exportgraphics(figure_1,'Fig1.pdf')
 
