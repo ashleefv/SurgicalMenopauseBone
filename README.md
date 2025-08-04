@@ -1,14 +1,16 @@
 # SurgicalMenopauseBone
+[![DOI](https://zenodo.org/badge/976196859.svg)](https://doi.org/10.5281/zenodo.16738331)
 
 Analysis scripts for paper "Mathematical Modeling of Bone Remodeling in Surgical Menopause"
 
 
 # Authors
-Anna C. Nelson(1), Edwina Yeo(2), Ashlee N. Ford Versypt (3)
+Primary code editors: Anna C. Nelson(1), Edwina Yeo(2), Ashlee N. Ford Versypt (3)
 - (1) Department of Mathematics \& Statistics, University of New Mexico, Albuquerque, NM, USA
-- (2) Department of Mathematics, University College London, United Kingdom
+- (2) Department of Mathematics, University College London, London, United Kingdom
 - (3) Department of Biomedical Engineering, University at Buffalo, The State University of New York, Buffalo, NY, USA
 
+Full author list: A. C. Nelson, E. F. Yeo, Y. Zhang, C. V. Cook, S. Fischer-Holzhausen, L. Keeler Bruce, P. Dutta, S. Gholami, B. J. Smith, and A. N. Ford Versypt
 
 # Overview
 To run all analysis and create all figures evaluate main.m. This repositiory contains an ODE
