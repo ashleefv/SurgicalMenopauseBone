@@ -28,9 +28,6 @@ params.eta_ovx=0;  % maximum amount of increase in apoptosis after surgery
 params.tau=0; % rate at which cyte apoptosis returns to normal: days^(-1)
 params.omega_ovx=0;  % maximum amount of increase in apoptosis after surgery
 
-% external constant rate of sclerostin production: needs to be set to the value of S
-% outside of steady state:
-params.omega_Sc=1; 
 
 % Plotting parameters: sets all plots to have these properties
 set(groot,'DefaultTextInterpreter','latex') 

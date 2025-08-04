@@ -24,12 +24,12 @@ options=odeset('RelTol',1e-13,'AbsTol',1e-13); % solver tolerances
 [T,sol] = ode45(@(t,s) ode_rhs(t,s,params,if_surgical,if_new_effects),t_array,initialcond,options );
 
 % calculate BMD at t=t_ref for normalisation 
-BMD_ref=sol(T == t_ref,7)*sol(T == t_ref,8);
+BMD_ref=sol(T == t_ref,7)*params.BMC_0;
 % normalise the solution vector relative to the initial condition
 sol_norm=sol./initialcond;
 
 % calculate the bone mineralisation density as product of bone min content and bone density
-BMD_norm=sol(:,7).*sol(:,8)./BMD_ref;  % normalise by BMD at t_ref
+BMD_norm=sol(:,7).*params.BMC_0./BMD_ref;  % normalise by BMD at t_ref
 estrogen_vec=zeros(size(T)); % empty storage vector
 for i=1:length(T)
     % filll each array entry with estrogen value

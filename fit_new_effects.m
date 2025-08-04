@@ -84,8 +84,8 @@ options=odeset('RelTol',1e-13,'AbsTol',1e-13); % solver tolerances
 [T,sol] = ode45(@(t,s) ode_rhs(t,s,params,if_surgical,if_new_effects),t_array,initialcond,options );
 % 
 % calculate BMD at t=21 for normalisation
-BMD_25=sol(T == t_ref,7)*sol(T == t_ref,8);
-BMD_norm=sol(:,7).*sol(:,8)./BMD_25;  % normalise by BMD at age 21.
+BMD_25=sol(T == t_ref,7)*params.BMC_0;
+BMD_norm=sol(:,7).*params.BMC_0./BMD_25;  % normalise by BMD at age 21.
 BMD_norm = BMD_norm';
 
 % BMD_25=0.6185;
@@ -103,7 +103,7 @@ t_data_scaled=params.t_e+t_data*365;
 sol_norm=sol./initialcond;
 
 % calculate the bone mineralisation density as product of bone min content and bone density
-BMD_norm=sol(:,7).*sol(:,8)./BMD_25;  % normalise by BMD at age 25.
+BMD_norm=sol(:,7).*params.BMC_0./BMD_25;  % normalise by BMD at age 25.
 BMD_norm = BMD_norm';
 
 

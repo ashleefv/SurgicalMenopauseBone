@@ -37,7 +37,7 @@ initialcond = get_initial_condition(params,if_new_effects);
 %%% sclerostin
 
 lb=[0, 0,0,0];  %lower bound of parameters  
-
+ub=[1, 1,100,10]; % upper bound of parameters
 
 % Initial guess to nonlinear least squares
 % lambda_B     = 1.29E-06; % ND, Threshold for estrogen action on osteoclasts
@@ -83,7 +83,7 @@ options=odeset('RelTol',1e-13,'AbsTol',1e-13); % solver tolerances
 [T,sol] = ode45(@(t,s) ode_rhs(t,s,params,if_surgical,if_new_effects),t_array,initialcond,options );
 
 % calculate BMD at t=25 for normalisation as in Jorg
-BMD_25=sol(T == t_ref,7)*params.BMC_0; 
+BMD_25=sol(T == t_ref,7)*c_thresh; %sol(T == t_ref,8);
 
 %Calculate solution at the data points
 
@@ -93,7 +93,7 @@ BMD_25=sol(T == t_ref,7)*params.BMC_0;
 sol_norm=sol./initialcond;
 
 % calculate the bone mineralisation density as product of bone min content and bone density
-BMD_norm=sol(:,7).*params.BMC_0./BMD_25;  % normalise by BMD at age 25.
+BMD_norm=sol(:,7).*c_thresh./BMD_25;  % normalise by BMD at age 25.
 BMD_norm = BMD_norm'; 
 
 F = BMD_norm - BMD_N_vector; 
