@@ -12,4 +12,4 @@ toc
 %
 % 3. Generate figs
 Figure1
-Figure2
+Figure3
