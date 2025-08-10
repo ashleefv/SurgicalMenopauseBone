@@ -35,4 +35,4 @@ based model which simulates the dynamics of bone cells in the BMU and predits BM
 - main.m: runs all analysis and creates figures. 
 
 # Plotting scripts:
-- Figure1.m and Figure2.m generate paper figures. 
+- Figure1.m and Figure3.m generate paper figures. 
