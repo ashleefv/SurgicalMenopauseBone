@@ -1,5 +1,5 @@
 
-% Generates Figure 2 for paper. 
+% Generates Figure 3 for paper. 
 
 clear all
 close all; 
@@ -128,7 +128,7 @@ initialcond = get_initial_condition(params,if_new_effects);
 
 close all
 
-figure1=figure('units','inch','position',[0,0,16,6]);
+figure3=figure('units','inch','position',[0,0,16,6]);
 t1 = tiledlayout(1,3,'TileSpacing','Compact');
 t2 = tiledlayout(t1,'flow','TileSpacing','Compact');
 t3 = tiledlayout(t1,'flow','TileSpacing','Compact');
@@ -214,4 +214,4 @@ ylabel('Osteoclast \%')
 xlabel('Years since menopause onset')
 xlim([-5,30])
 
-exportgraphics(figure1,'Fig2.pdf')
+exportgraphics(figure3,'Fig3.pdf')
