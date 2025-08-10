@@ -9,7 +9,7 @@ var_cell=num2cell(var);
 r = C;
 
 % time dependent estrogen conc.
-e=estrogen(t,if_surgical,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+e=estrogen(t,if_surgical,params.t_m,params.tau_e,params.k_deg,params.k_syn);
 
 
 % RHS of odes

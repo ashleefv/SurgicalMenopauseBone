@@ -9,8 +9,8 @@
 % read in parameters and other settings
 
 read_in_parameters;
-t_surgery = params.t_e/365; % surgery time in years
-t_ref=params.t_e; % Normalisation BMD value.
+t_surgery = params.t_m/365; % surgery time in years
+t_ref=params.t_m; % Normalisation BMD value.
 
 % Data import
 

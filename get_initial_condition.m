@@ -2,10 +2,10 @@
 %[pb,pc,c,b,s,sc,BMC,Bd,scb]=var_cell{:};
 % 1. PB - preosteoblasts
 % 2. PC - preosteoclasts
-% 3. C  - osteoclast
-% 4. B  - osteoblast 
+% 3. C  - osteoclasts
+% 4. B  - osteoblasts 
 % 5. S  - osteocytes
-% 6. Sc  - sclerositin
+% 6. Sc  - sclerostin
 % 7. Bd - bone density
 function initialcond = get_initial_condition(params, if_new_effects)
 % steady state solver without Bone mineral density

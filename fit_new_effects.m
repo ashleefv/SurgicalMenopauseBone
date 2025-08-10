@@ -89,11 +89,11 @@ BMD_norm=sol(:,7).*params.BMC_0./BMD_25;  % normalise by BMD at age 21.
 BMD_norm = BMD_norm';
 
 % BMD_25=0.6185;
-% plot(T/365-params.t_e/365,BMD_norm,'r-.','DisplayName','new fit'); hold on
+% plot(T/365-params.t_m/365,BMD_norm,'r-.','DisplayName','new fit'); hold on
 % plot(T,BMD_norm,'r-.','DisplayName','new fit'); hold on
 
 %Calculate solution at the data points
-t_data_scaled=params.t_e+t_data*365;
+t_data_scaled=params.t_m+t_data*365;
 
 
 
@@ -113,7 +113,7 @@ F = BMD_norm(3:end);% - BMD_S_vector/100
 estrogen_vec=zeros(size(T)); % empty storage vector
 for i=1:length(T)
     % filll each array entry with estrogen value
-    estrogen_vec(i)=estrogen(T(i),if_surgical,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+    estrogen_vec(i)=estrogen(T(i),if_surgical,params.t_m,params.tau_e,params.k_deg,params.k_syn);
 end
 
 end

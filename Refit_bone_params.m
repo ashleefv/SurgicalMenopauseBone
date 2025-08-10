@@ -28,7 +28,7 @@ BMD_S=[BMD_pansini, BMD_hibler,BMD_hajidakis ,BMD_yasui,BMD_chitt, BMD_N_ohta]*1
 params.omega_ovx=0;
 params.tau=0;
 params.eta_ovx=0;
-params.t_e=27*365;
+params.t_m=27*365;
 if_new_effects=0;
 if_surgical=0;
 initialcond = get_initial_condition(params,if_new_effects);
@@ -101,7 +101,7 @@ F = BMD_norm - BMD_N_vector;
 estrogen_vec=zeros(size(T)); % empty storage vector
 for i=1:length(T)
     % filll each array entry with estrogen value
-    estrogen_vec(i)=estrogen(T(i),if_surgical,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+    estrogen_vec(i)=estrogen(T(i),if_surgical,params.t_m,params.tau_e,params.k_deg,params.k_syn);
 end
 
 

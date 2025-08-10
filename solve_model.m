@@ -33,7 +33,7 @@ BMD_norm=sol(:,7).*params.BMC_0./BMD_ref;  % normalise by BMD at t_ref
 estrogen_vec=zeros(size(T)); % empty storage vector
 for i=1:length(T)
     % filll each array entry with estrogen value
-    estrogen_vec(i)=estrogen(T(i),if_surgical,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+    estrogen_vec(i)=estrogen(T(i),if_surgical,params.t_m,params.tau_e,params.k_deg,params.k_syn);
 end
 end
 

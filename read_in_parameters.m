@@ -9,18 +9,18 @@ C = [c1{1},num2cell(c1{2})].';
 params = struct(C{:});
 
 
-params.t_e =27*365;      % days, Rescaled time parameter, onset time in days: 38 years
+params.t_m =27*365;      % days, Rescaled time parameter, onset time in days: 38 years
 
 % estrogen decay surgical menopause parameters
 e_0 = 156;  % picogram/ml initial concentration of estrogen
-k_dec = log(2)*(24*60)/161; % days^(-1), Rescaled timescale of estrogen decline, estogen half life
+k_deg = log(2)*(24*60)/161; % days^(-1), Rescaled timescale of estrogen decline, estogen half life
 k_syn = 0.065*(24*60)/e_0; % days^(-1), Rescaled timescale 
 params.e_0 = e_0;
 
 % terms for estrogen effect on apoptosis
-eovx=k_syn/k_dec; % post ovx estrogen level;
+eovx=k_syn/k_deg; % post ovx estrogen level;
 params.eovx = eovx;
-params.k_dec = k_dec;
+params.k_deg = k_deg;
 params.k_syn = k_syn;
 
 %parameters for new effects set to zero.
