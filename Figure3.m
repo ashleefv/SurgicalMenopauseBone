@@ -9,7 +9,7 @@ Spine_data % load menopause data
 tend = 80*365; %final time for solving
 tstart=0*365; %initial time for solving
 t_ref=27*365;  % calibration for species time 25 years
-params.t_e=27*365; % natural menopause onset at 27 years 
+params.t_m=27*365; % natural menopause onset at 27 years 
 
 
 % Combine into one array for plotting: Natural data without the Looker et
@@ -143,9 +143,9 @@ nexttile(t2);
 plot(t_S,BMD_S,'k.','MarkerSize',25,'DisplayName','SM data'); hold on
 plot(t_looker/365-50, BMD_looker'*100,'ro','DisplayName','NM data Looker et al.',MarkerSize=10)
 plot(t_N,BMD_N,'r.','MarkerSize',25,'DisplayName','NM data other sources'); hold on
-plot(T_n/365-params.t_e/365,BMD_norm_pre*100,'r-.','DisplayName','Model NM:  Jorg et al.')
-plot(T_n/365-params.t_e/365,BMD_normn*100,'r','DisplayName','Model NM: refit Jorg et al.')
-plot(T_s/365-params.t_e/365,BMD_norms*100,'k','DisplayName','Model SM: no new effects')
+plot(T_n/365-params.t_m/365,BMD_norm_pre*100,'r-.','DisplayName','Model NM:  Jorg et al.')
+plot(T_n/365-params.t_m/365,BMD_normn*100,'r','DisplayName','Model NM: refit Jorg et al.')
+plot(T_s/365-params.t_m/365,BMD_norms*100,'k','DisplayName','Model SM: no new effects')
 ylim([60,120])
 xlim([-5,30])
 legend()
@@ -165,19 +165,19 @@ long_t=t_S(t_S>15);
 
 plot(t_S,BMD_S,'k.','MarkerSize',25,'DisplayName','SM data'); hold on
 plot(long_t,long_BMD,'b.','MarkerSize',25,'DisplayName','Long term SM data'); hold on
-plot(T_s/365-params.t_e/365,BMD_norms*100,'k','DisplayName','Model SM: no new effects')
-plot(T_s/365-params.t_e/365,BMD_fit_short*100,'g','DisplayName','Model SM:  fit up to 15 years')
+plot(T_s/365-params.t_m/365,BMD_norms*100,'k','DisplayName','Model SM: no new effects')
+plot(T_s/365-params.t_m/365,BMD_fit_short*100,'g','DisplayName','Model SM:  fit up to 15 years')
 
-plot(T_s/365-params.t_e/365,BMD_fit_long*100,'b','DisplayName','Model SM: fit up to 30 years')
+plot(T_s/365-params.t_m/365,BMD_fit_long*100,'b','DisplayName','Model SM: fit up to 30 years')
 
 xlim([-5,30])
 ylim([60,120])
 
-kk=patch([T_s(1:200:end);flip(T_s(1:200:end));T_s(1)]/365-params.t_e/365,...
+kk=patch([T_s(1:200:end);flip(T_s(1:200:end));T_s(1)]/365-params.t_m/365,...
     [BMD_fit_long_lower(1:200:end);flip(BMD_fit_long_upper(1:200:end));BMD_fit_long_lower(1)]*100,'b',FaceAlpha=0.1,EdgeColor='none');
 kk.HandleVisibility='off';
 
-kk=patch([T_s(1:200:end);flip(T_s(1:200:end));T_s(1)]/365-params.t_e/365,...
+kk=patch([T_s(1:200:end);flip(T_s(1:200:end));T_s(1)]/365-params.t_m/365,...
     [BMD_short_upper(1:200:end);flip(BMD_short_lower(1:200:end));BMD_short_upper(1)]*100,'g',FaceAlpha=0.1,EdgeColor='none');
 kk.HandleVisibility='off';
 legend()
@@ -189,9 +189,9 @@ title("(b)")
 
 %Plot ci
 nexttile(t4)
-plot(T_s/365-params.t_e/365,sol_norm_fit(:,3)*100,'k','DisplayName','Model SM: no new effects'); hold on
-plot(T_s/365-params.t_e/365,sol_fit_short(:,3)*100,'g','DisplayName','Model SM:  fit up to 15 years')
-plot(T_s/365-params.t_e/365,sol_fit_long(:,3)*100,'b','DisplayName','Model SM: fit up to 30 years')
+plot(T_s/365-params.t_m/365,sol_norm_fit(:,3)*100,'k','DisplayName','Model SM: no new effects'); hold on
+plot(T_s/365-params.t_m/365,sol_fit_short(:,3)*100,'g','DisplayName','Model SM:  fit up to 15 years')
+plot(T_s/365-params.t_m/365,sol_fit_long(:,3)*100,'b','DisplayName','Model SM: fit up to 30 years')
 legend()
 ylabel('Osteocyte \%')
 title("(c)")
@@ -199,17 +199,17 @@ xlim([-5,30])
 
 %Plot cii
 nexttile(t4)
-plot(T_s/365-params.t_e/365,sol_fit_long(:,4)*100,'b'); hold on
-plot(T_s/365-params.t_e/365,sol_norm_fit(:,4)*100,'k')
-plot(T_s/365-params.t_e/365,sol_fit_short(:,3)*100,'g')
+plot(T_s/365-params.t_m/365,sol_fit_long(:,4)*100,'b'); hold on
+plot(T_s/365-params.t_m/365,sol_norm_fit(:,4)*100,'k')
+plot(T_s/365-params.t_m/365,sol_fit_short(:,3)*100,'g')
 ylabel('Osteoblast \%')
 xlim([-5,30])
 
 %Plot ciii
 nexttile(t4)
-plot(T_s/365-params.t_e/365,sol_fit_long(:,5)*100,'b'); hold on
-plot(T_s/365-params.t_e/365,sol_norm_fit(:,5)*100,'k')
-plot(T_s/365-params.t_e/365,sol_fit_short(:,3)*100,'g')
+plot(T_s/365-params.t_m/365,sol_fit_long(:,5)*100,'b'); hold on
+plot(T_s/365-params.t_m/365,sol_norm_fit(:,5)*100,'k')
+plot(T_s/365-params.t_m/365,sol_fit_short(:,3)*100,'g')
 ylabel('Osteoclast \%')
 xlabel('Years since menopause onset')
 xlim([-5,30])

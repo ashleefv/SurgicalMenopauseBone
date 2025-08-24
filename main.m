@@ -7,9 +7,9 @@ toc
 
 tic
 % 2. Estimate new model params
-fit_new_effects
+%fit_new_effects
 toc
 %
 % 3. Generate figs
-Figure1
-Figure3
+%Figure1
+%Figure3

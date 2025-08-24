@@ -113,7 +113,7 @@ F = BMD_norm(3:end);% - BMD_S_vector/100
 estrogen_vec=zeros(size(T)); % empty storage vector
 for i=1:length(T)
     % filll each array entry with estrogen value
-    estrogen_vec(i)=estrogen(T(i),if_surgical,params.t_m,params.tau_e,params.k_deg,params.k_syn);
+    estrogen_vec(i)=estrogen(T(i),if_surgical,params.t_m,params.tau_E,params.kappa_E,params.k_syn);
 end
 
 end

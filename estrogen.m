@@ -1,6 +1,6 @@
 
 % time dependent estrogen function
-function e=estrogen(t,if_surgical,t_m,tau_e,k_deg,k_syn)
+function E=estrogen(t,if_surgical,t_m,tau_E,kappa_E,k_syn)
 
 % t_m is the onset point of menopause
 
@@ -10,18 +10,18 @@ function e=estrogen(t,if_surgical,t_m,tau_e,k_deg,k_syn)
 % for natural menopause:
 % tau_e is the decay rate of estrogen
 % surgical menopause:
-% rapid decline between e=1 and e=eovx
+% rapid decline between E=1 and E=Eovx
 
 if if_surgical
-    %  e=1.*(t<t_m)+eovx*(t>=t_m); % step function definition using embedded if statements (t<t_m)
-    % e=1.*(t<t_m)+(t>=t_m).*((1-k_syn/k_deg).*exp(-k_deg.*(t-t_m))+k_syn/k_deg) % step function definition using embedded if statements (t<t_m)
+    %  E=1.*(t<t_m)+Eovx*(t>=t_m); % step function definition using embedded if statements (t<t_m)
+    % E=1.*(t<t_m)+(t>=t_m).*((1-k_syn/kappa_E).*exp(-kappa_E.*(t-t_m))+k_syn/kappa_E) % step function definition using embedded if statements (t<t_m)
     if t>=t_m
-        e=((1-k_syn/k_deg).*exp(-k_deg.*(t-t_m))+k_syn/k_deg);
+        E=((1-k_syn/kappa_E).*exp(-kappa_E.*(t-t_m))+k_syn/kappa_E);
     else
-        e=1;
+        E=1;
     end
 else
-    e=1.*(t<t_m)+(t>=t_m)./(1+ (t-t_m)/tau_e);
+    E=1.*(t<t_m)+(t>=t_m)./(1+ (t-t_m)/tau_E);
 end
 
 end

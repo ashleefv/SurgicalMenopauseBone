@@ -149,19 +149,19 @@ box(axPrimary, 'on');
 axis(axPrimary, 'equal'); 
 % Generate estrogen concentrations in both natural and surgical cases. 
 t=linspace(0,57*365,1000); % 57 years
-% t=linspace(params.t_e-10,params.t_e+10,1000);
+% t=linspace(params.t_m-10,params.t_m+10,1000);
 es=zeros(size(t));
 en=zeros(size(t));
 for i=1:length(t)
-    es(i)=estrogen(t(i),1,params.t_e,params.tau_e,params.k_dec,params.k_syn);
-        en(i)=estrogen(t(i),0,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+    es(i)=estrogen(t(i),1,params.t_m,params.tau_E,params.kappa_E,params.k_syn);
+        en(i)=estrogen(t(i),0,params.t_m,params.tau_E,params.kappa_E,params.k_syn);
 end
 %
-% es=estrogen(t,1,params.t_e,params.tau_e,params.k_dec,params.k_syn);
-% % en=estrogen(t,0,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+% es=estrogen(t,1,params.t_m,params.tau_E,params.kappa_E,params.k_syn);
+% % en=estrogen(t,0,params.t_m,params.tau_E,params.kappa_E,params.k_syn);
 
-plot(axPrimary, t/365-params.t_e/365,en,'r','LineWidth',2); hold on
-plot(axPrimary,t/365-params.t_e/365,es,'k','LineWidth',2)
+plot(axPrimary, t/365-params.t_m/365,en,'r','LineWidth',2); hold on
+plot(axPrimary,t/365-params.t_m/365,es,'k','LineWidth',2)
 title({'(c)'})
 xlim([-2,30])
 % Choose section to isolate
@@ -178,15 +178,15 @@ axis(axSecondary, 'equal');
 
 % Zoom in to the 10 days around onset
 
-t=linspace(params.t_e-10,params.t_e+10,1000);
+t=linspace(params.t_m-10,params.t_m+10,1000);
 es=zeros(size(t));
 en=zeros(size(t));
 for i=1:length(t)
-    es(i)=estrogen(t(i),1,params.t_e,params.tau_e,params.k_dec,params.k_syn);
-        en(i)=estrogen(t(i),0,params.t_e,params.tau_e,params.k_dec,params.k_syn);
+    es(i)=estrogen(t(i),1,params.t_m,params.tau_E,params.kappa_E,params.k_syn);
+        en(i)=estrogen(t(i),0,params.t_m,params.tau_E,params.kappa_E,params.k_syn);
 end
 %
-plot(axSecondary, t-params.t_e,en,'r',t-params.t_e,es,'k','LineWidth',2)
+plot(axSecondary, t-params.t_m,en,'r',t-params.t_m,es,'k','LineWidth',2)
 xlim([-1,3])
 xlabel('Days since menopause onset')
 title('')

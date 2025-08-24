@@ -11,16 +11,17 @@ params = struct(C{:});
 
 params.t_m =27*365;      % days, Rescaled time parameter, onset time in days: 38 years
 
-% estrogen decay surgical menopause parameters
-e_0 = 156;  % picogram/ml initial concentration of estrogen
-k_deg = log(2)*(24*60)/161; % days^(-1), Rescaled timescale of estrogen decline, estogen half life
-k_syn = 0.065*(24*60)/e_0; % days^(-1), Rescaled timescale 
-params.e_0 = e_0;
+% Estrogen decay surgical menopause parameters
+E_0 = 156;  % picogram/ml initial concentration of estrogen
+kappa_E = log(2)*(24*60)/161; % days^(-1), Rescaled timescale of estrogen decline, estogen half life
+% 0.065 is a rounded version of log(2)*15/161. Slighlty more precise version of k_syn is 15/e_0*log(2)*(24*60)/161
+k_syn = 0.065*(24*60)/E_0; % days^(-1), Rescaled timescale 
+params.E_0 = E_0;
 
 % terms for estrogen effect on apoptosis
-eovx=k_syn/k_deg; % post ovx estrogen level;
-params.eovx = eovx;
-params.k_deg = k_deg;
+Eovx=k_syn/kappa_E; % post ovx estrogen level;
+params.Eovx = Eovx;
+params.kappa_E = kappa_E;
 params.k_syn = k_syn;
 
 %parameters for new effects set to zero.

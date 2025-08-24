@@ -42,6 +42,7 @@ lb=[0, 0,0,0];  %lower bound of parameters
 % Initial guess to nonlinear least squares
 % lambda_B     = 1.29E-06; % ND, Threshold for estrogen action on osteoclasts
 % lambda_C    = 3.82E-06; % ND, Threshold for estrogen action on pre-osteoclasts
+% [lambda_B, lambda_C, e_PC, e_Sc]
 kguess=[1e-6, 4e-7, 0.5, 1]; 
 
 %implementing lsqcurvefit: look for optimal params
@@ -101,7 +102,7 @@ F = BMD_norm - BMD_N_vector;
 estrogen_vec=zeros(size(T)); % empty storage vector
 for i=1:length(T)
     % filll each array entry with estrogen value
-    estrogen_vec(i)=estrogen(T(i),if_surgical,params.t_m,params.tau_e,params.k_deg,params.k_syn);
+    estrogen_vec(i)=estrogen(T(i),if_surgical,params.t_m,params.tau_E,params.kappa_E,params.k_syn);
 end
 
 

@@ -28,7 +28,7 @@ var_cell=num2cell(var);
 % Regulatory factors are proportional to osteoclast
 r = C;
 % initial constant estrogen conc.
-e = 1;
+E = 1;
 
 
 t=0; % set time to be zero for time-dependent RHS
