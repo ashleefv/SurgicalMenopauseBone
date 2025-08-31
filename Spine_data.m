@@ -141,7 +141,7 @@ BMD_norm = 955;
 t_looker_onset = 50; %taken from eyeballing Jorg
 
  
-BMD_looker=data_looker(1:5,2)/0.9531; % normalised by BMD at 50 in jorg
+BMD_looker=data_looker(1:5,2)/0.959297; % normalised by BMD at 50 in jorg
 mean_SD_looker=SD_looker(1:5)./BMD_norm;
 BMD_looker_SD=mean_SD_looker';
 

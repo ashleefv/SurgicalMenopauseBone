@@ -66,41 +66,43 @@ OPTIONS = optimoptions('lsqnonlin','StepTolerance',1e-12,...
  'MaxFunctionEvaluations', 500,'Algorithm','levenberg-marquardt',...
  'Display','iter');
 params.t_m=50*365;
-% 
-% % % Sorted t data vector is in YEARS not DAYS
-% [refit_bone_params,resnorm,residual,exitflag,output] = lsqnonlin(@(k) ...
-%      solve_model_varyparam_k(k,params,initialcond, [tstart,t_ref-0.001,sorted_t_N_vector,tend],t_ref, sorted_t_N_vector, if_surgical,...
-%    if_new_effects, data_looker(1:5,2)'),...
-%    kguess, lb, [Inf,Inf,Inf,Inf], OPTIONS)
-% %
+
+
+%
 % save data for use in later scripts.
 % save('refit_bone_params.mat',"refit_bone_params",'-mat')
 
 % Function which ode for given search parameters, returns error to data
 %
-figure
-subplot(1,2,1)
-% params.t_m=50*365;
-solve_model_varyparam_k(kguess,params,initialcond, sort([tstart,t_ref-0.001,50*365,sorted_t_N_vector,tend]),t_ref, sorted_t_N_vector, if_surgical,...
-   if_new_effects, data_looker(1:5,2)')
-solve_model_varyparam_k(refit_bone_params,params,initialcond, sort([tstart,t_ref-0.001,50*365,sorted_t_N_vector,tend]),t_ref, sorted_t_N_vector, if_surgical,...
-   if_new_effects, data_looker(1:5,2)')
+%%Spine_data
+
+%%
+subplot(1,2,2)
+params.t_m=0;
+t_ref=50*365
+
+solve_model_varyparam_k(kguess,params,initialcond, sort([tstart,t_ref,sorted_t_N_vector,tend]-50*365),t_ref-50*365, sorted_t_N_vector, if_surgical,...
+   if_new_effects,  sorted_BMD_N_vector/100)
+solve_model_varyparam_k(refit_bone_params,params,initialcond, sort([tstart,t_ref,sorted_t_N_vector,tend]-50*365),t_ref-50*365, sorted_t_N_vector, if_surgical,...
+   if_new_effects,  sorted_BMD_N_vector/100)
 % plot(T/365,S1(:,7).*S1(:,8)./BMD_25,'y') % normalised BMD by the BMD at 25
-plot(sorted_t_N_vector/365,sorted_BMD_N_vector/100,'go')
 
-plot(sorted_t_N_vector/365,data_looker(1:5,2),'ko')
-BMD_norm=[    1.0849    1.0424    1.0255    1.0085    1.0000    0.9602    0.8860    0.7939]
-
-% plot(sort([tstart,50*365,sorted_t_N_vector,tend]-50*365)/365+50,BMD_norm*0.959297)
-% plot(sorted_t_N_vector/365,sorted_BMD_N_vector/100,'o')
-
+% plot(sorted_t_N_vector/365-50,data_looker(1:5,2),'ko')
 % solve_model_varyparam_k(refdata_looker(1:5,2)
 % it_bone_params,params,initialcond, tstart:1:tend,t_ref, sorted_t_N_vector, if_surgical,...
-%    if_new_effects, sorted_BMD_N_vector/100)
+% %    if_new_effects, sorted_BMD_N_vector/100)
 % xline(params.t_m/365)
 
-legend( 'Model using Jorg params','Model using refit to unscaled Looker','Looker scaled to have BMD 1 at 50 yrs (menopause onset)','Looker unscaled.')
-xlabel('years')
+plot(sorted_t_N_vector/365-50,sorted_BMD_N_vector/100,'go')
+legend( 'Model using Jorg params','Model using refit to unscaled Looker','Looker scaled')
+xlabel('years since menopause onset ')
+title('Model and data on rescaled to have BMD=1 at t=0 years')
+
+%%
+
+subplot(1,2,1)
+title('Model and data on rescaled to have BMD=1 at t=25 years ')
+
 function [F]=solve_model_varyparam_k(k,params,initialcond, ...
     t_array,t_ref,t_data,if_surgical,if_new_effects,  ...
      BMD_N_vector)...
@@ -116,13 +118,17 @@ initialcond = get_initial_condition(params,if_new_effects); % solve for initial 
 % ODE solver dynamic system with initial condition from fsolve.
 options=odeset('RelTol',1e-13,'AbsTol',1e-13); % solver tolerances
 [T,sol] = ode45(@(t,s) ode_rhs(t,s,params,if_surgical,if_new_effects),t_array,initialcond,options );
-t_data/365;
+t_data/365
+t_ref
+t_array
 % calculate BMD at t=25 for normalisation as in Jorg
-BMD_25=sol(T == t_ref,7)*params.BMC_0;
+BMD_25=sol(T == t_ref,7)*params.BMC_0
 
 BMD_norm=sol(:,7).*params.BMC_0./BMD_25;  % normalise by BMD at age 25.
-BMD_norm = BMD_norm';
+BMD_norm = BMD_norm'
 plot(T/365,BMD_norm,'-'); hold on
+
+
 
 % % figure
 % plot(T/365,sol(:,7),'.'); hold on
@@ -139,9 +145,9 @@ plot(T/365,BMD_norm,'-'); hold on
 % BMD_norm = BMD_norm'; 
 % plot(T(3:end)/365,BMD_norm(3:end),'ro'); hold on
 
-% F = BMD_norm(3:end-1) - BMD_N_vector;
+F = BMD_norm(3:end-1) - BMD_N_vector;
 % BMD_norm - BMD_N_vector;
-% sum(abs(F))
+sum(abs(F))
 % 
 % figure
 % plot(T/365,BMD_norm,'o'); hold on
