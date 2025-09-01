@@ -51,10 +51,10 @@ best_params_short=best_params_short.best_params_short ;% overwrite struct
 
 % Case 2: natural menpause with new parameters 
 
-params.lambda_B=refit_bone_params(1); %
-params.lambda_C=refit_bone_params(2);%
-params.e_PC=refit_bone_params(3);%
-params.e_Sc=refit_bone_params(4);%
+% params.lambda_B=refit_bone_params(1); %
+% params.lambda_C=refit_bone_params(2);%
+params.e_PC=refit_bone_params(1);%
+params.e_Sc=refit_bone_params(2);%
 
 initialcond = get_initial_condition(params,if_new_effects);
 [T_n,~,sol_norm,BMD_normn,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
