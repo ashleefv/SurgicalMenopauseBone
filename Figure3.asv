@@ -125,7 +125,7 @@ initialcond = get_initial_condition(params,if_new_effects);
 
 [~,~,~,BMD_short_lower,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
 
-%
+%%
 % Create plot-----------------------------------------------------------
 
 close all

@@ -11,7 +11,6 @@ r = C;
 % time dependent estrogen conc.
 E=estrogen(t,if_surgical,params.t_m,params.tau_E,params.kappa_E,params.k_syn);
 
-
 % RHS of odes
 RHS_of_equations 
 

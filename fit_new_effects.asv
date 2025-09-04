@@ -37,8 +37,8 @@ if_new_effects=1; % turn on new effects
 
 
 % Case 1: fitting to all data 
-kguess=[0.5,0.001,0.5]; % Intial guess for all params
-lb=[0,0,0]; % lower bound: [no effect, permanent effect, no effect]
+kguess=[1,0.001,1]; % Intial guess for all params
+lb=[0,1e-10,0]; % lower bound: [no effect, very long term effect, no effect[
 ub=[5,1,5];% upper bound: [5 times increased apoptosis, effect which lasts 1 day, 5 times increase apop]
 
 [sorted_t_S_vector,sorting] = sort(t_S*365); 
@@ -47,8 +47,8 @@ sorted_BMD_S_vector = BMD_S(sorting);
 t_solve_S=sort([tstart,t_ref,sorted_t_S_vector,tend]);
 
 
-OPTIONS = optimoptions('lsqnonlin','StepTolerance',1e-8,...
- 'FunctionTolerance',1e-8,'optimalitytolerance', 1e-8,...
+OPTIONS = optimoptions('lsqnonlin','StepTolerance',1e-7,...
+ 'FunctionTolerance',1e-7,'optimalitytolerance', 1e-6,...
  'MaxFunctionEvaluations', 10000, 'MaxIterations', 10000,'Algorithm','levenberg-marquardt');
 
 [best_params_all,resnorm,residual,exitflag,output]= lsqnonlin(@(k) ...
@@ -56,7 +56,7 @@ OPTIONS = optimoptions('lsqnonlin','StepTolerance',1e-8,...
    if_new_effects,sorted_BMD_S_vector/100) , kguess, lb,ub,OPTIONS)
 %
 save('fit_effects_long.mat',"best_params_all",'-mat')
-%
+%%
 % % Case 2: fitting to data up to 15 years 
 sorted_BMD_S_vector=sorted_BMD_S_vector(sorted_t_S_vector/365<15);
 sorted_t_S_vector=sorted_t_S_vector(sorted_t_S_vector/365<15);

@@ -10,10 +10,10 @@ close all;
 read_in_parameters
 Spine_data%: load in menopause data.
 
-tend = 80*365; %final time
-tstart=0*365; %initial time
-t_ref=25*365;  % calibration time 25 years
-params.t_m=50*365;
+tend = 50*365; %final time
+tstart=-30*365; %initial time
+t_ref=0*365;  % calibration time 25 years
+params.t_m=0*365;
 
 % Combine into 1 array: Natural
 t_N=[t_pansini/365, t_looker/365-50,t_hajidakis/365-t_hajidakis_onset_N,t_ohta/365-t_ohta_onset/365];
@@ -26,9 +26,9 @@ t_S=[t_pansini/365, t_hibler/365,t_hajidakis/365-t_hajidakis_onset_S,...
 BMD_S=[BMD_pansini, BMD_hibler,BMD_hajidakis ,BMD_yasui,BMD_chitt, BMD_N_ohta]*100;
 
 
-% Combine into 1 array: Natural
-t_N=[t_looker/365];
-BMD_N=[BMD_looker']*100;
+% % Combine into 1 array: Natural
+% t_N=[t_looker/365];
+% BMD_N=[BMD_looker']*100;
 
 
 %%------------ Panel a data: nat and surg no new effects  --------
@@ -48,7 +48,7 @@ initialcond = get_initial_condition(params,if_new_effects); % solve for initial 
 
 lb=[0, 0,0,0];  %lower bound of parameters  
 
-
+%
 % Initial guess to nonlinear least squares
 % lambda_B     = 1.29E-06; % ND, Threshold for estrogen action on osteoclasts
 % lambda_C    = 3.82E-06; % ND, Threshold for estrogen action on pre-osteoclasts
@@ -59,14 +59,28 @@ kguess=[1.2900e-06, 3.8200e-06,  0.9377, 9.5954];
 
 [sorted_t_N_vector,sorting] = sort(t_N*365); 
 sorted_BMD_N_vector = BMD_N(sorting); 
+figure
 
 
-OPTIONS = optimoptions('lsqnonlin','StepTolerance',1e-12,...
- 'FunctionTolerance',1e-16,'optimalitytolerance', 1e-6,...
- 'MaxFunctionEvaluations', 500,'Algorithm','levenberg-marquardt',...
+
+
+
+
+%%
+OPTIONS = optimoptions('lsqnonlin','StepTolerance',1e-8,...
+ 'FunctionTolerance',1e-8,'optimalitytolerance', 1e-6,...
+ 'MaxFunctionEvaluations', 5000,'Algorithm','levenberg-marquardt',...
  'Display','iter');
-params.t_m=50*365;
+% params.t_m=50*365;
 
+
+params.t_m=0;
+t_ref=0
+t_solve=sort([tstart,t_ref-0.001,sorted_t_N_vector,tend])
+[refit_bone_params,resnorm,residual,exitflag,output] = lsqnonlin(@(k) ...
+     solve_model_varyparam_k(k,params,initialcond, t_solve,t_ref, sorted_t_N_vector/365, if_surgical,...
+   if_new_effects,sorted_BMD_N_vector/100),...
+   kguess, lb, [Inf,Inf,Inf,Inf], OPTIONS)
 
 %
 % save data for use in later scripts.
@@ -77,14 +91,27 @@ params.t_m=50*365;
 %%Spine_data
 
 %%
+
+figure
 subplot(1,2,2)
 params.t_m=0;
-t_ref=50*365
+t_ref=0
+t_solve=sort([tstart,t_ref-0.001,sorted_t_N_vector,tend])
 
-solve_model_varyparam_k(kguess,params,initialcond, sort([tstart,t_ref,sorted_t_N_vector,tend]-50*365),t_ref-50*365, sorted_t_N_vector, if_surgical,...
+loc=find(t_solve==tstart)
+t_solve(loc)
+
+loc1=find(t_solve==tstart)
+
+
+%
+t_solve==t_ref-1e-3
+solve_model_varyparam_k(kguess,params,initialcond, t_solve,0, sorted_t_N_vector, if_surgical,...
    if_new_effects,  sorted_BMD_N_vector/100)
-solve_model_varyparam_k(refit_bone_params,params,initialcond, sort([tstart,t_ref,sorted_t_N_vector,tend]-50*365),t_ref-50*365, sorted_t_N_vector, if_surgical,...
+plot(sorted_t_N_vector/365,sorted_BMD_N_vector/100,'go')
+solve_model_varyparam_k(refit_bone_params,params,initialcond, t_solve,0, sorted_t_N_vector, if_surgical,...
    if_new_effects,  sorted_BMD_N_vector/100)
+plot(sorted_t_N_vector/365,sorted_BMD_N_vector/100,'go')
 % plot(T/365,S1(:,7).*S1(:,8)./BMD_25,'y') % normalised BMD by the BMD at 25
 
 % plot(sorted_t_N_vector/365-50,data_looker(1:5,2),'ko')
@@ -93,12 +120,13 @@ solve_model_varyparam_k(refit_bone_params,params,initialcond, sort([tstart,t_ref
 % %    if_new_effects, sorted_BMD_N_vector/100)
 % xline(params.t_m/365)
 
-plot(sorted_t_N_vector/365-50,sorted_BMD_N_vector/100,'go')
+% plot(sorted_t_N_vector/365-50,sorted_BMD_N_vector/100,'go')
 legend( 'Model using Jorg params','Model using refit to unscaled Looker','Looker scaled')
 xlabel('years since menopause onset ')
 title('Model and data on rescaled to have BMD=1 at t=0 years')
 
-%%
+%
+
 
 subplot(1,2,1)
 title('Model and data on rescaled to have BMD=1 at t=25 years ')
@@ -116,20 +144,23 @@ params.e_Sc = k(4);
 initialcond = get_initial_condition(params,if_new_effects); % solve for initial condition of model
 
 % ODE solver dynamic system with initial condition from fsolve.
-options=odeset('RelTol',1e-13,'AbsTol',1e-13); % solver tolerances
+options=odeset('RelTol',1e-7,'AbsTol',1e-7); % solver tolerances
 [T,sol] = ode45(@(t,s) ode_rhs(t,s,params,if_surgical,if_new_effects),t_array,initialcond,options );
-t_data/365
-t_ref
-t_array
-% calculate BMD at t=25 for normalisation as in Jorg
-BMD_25=sol(T == t_ref,7)*params.BMC_0
 
+% calculate BMD at t=25 for normalisation as in Jorg
+BMD_25=sol(T == t_ref,7)*params.BMC_0;
 BMD_norm=sol(:,7).*params.BMC_0./BMD_25;  % normalise by BMD at age 25.
-BMD_norm = BMD_norm'
+BMD_norm = BMD_norm';
 plot(T/365,BMD_norm,'-'); hold on
 
 
+% create a mask so we only compare the model at the data points
+mask =  t_array == t_ref;
+mask(1)=1;
+mask(end)=1;
 
+F = BMD_norm(mask<1)  - BMD_N_vector;
+sum(abs(F))
 % % figure
 % plot(T/365,sol(:,7),'.'); hold on
 
@@ -145,9 +176,7 @@ plot(T/365,BMD_norm,'-'); hold on
 % BMD_norm = BMD_norm'; 
 % plot(T(3:end)/365,BMD_norm(3:end),'ro'); hold on
 
-F = BMD_norm(3:end-1) - BMD_N_vector;
-% BMD_norm - BMD_N_vector;
-sum(abs(F))
+
 % 
 % figure
 % plot(T/365,BMD_norm,'o'); hold on

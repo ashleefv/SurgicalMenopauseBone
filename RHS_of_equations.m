@@ -22,18 +22,17 @@ dS = params.omega_B*B - params.eta_S*S;
 % If new effects are on then use different functional forms 
 if if_new_effects
 
-    % apoptosis rate:
-    eta_surg=params.eta_S.*(t<params.t_m)...
+        eta_surg=params.eta_S.*(t<=params.t_m)...
         +((params.eta_S+params.eta_S*params.eta_ovx...
-        *exp(-params.tau*abs(t-params.t_m)))).*(t>=params.t_m);
+        *exp(-params.tau*abs(t-params.t_m)))).*(t>params.t_m);
 
     % overwrite osteocyte equation
     dS = params.omega_B*B - eta_surg.*S;
 
     % Increased differentation of PC 
-     params.omega_surg=params.omega_PC.*(t<params.t_m)...
+     params.omega_surg=params.omega_PC.*(t<=params.t_m)...
         +((params.omega_PC+params.omega_ovx...
-        *exp(-params.tau*abs(t-params.t_m)))).*(t>=params.t_m);
+        *exp(-params.tau*abs(t-params.t_m)))).*(t>params.t_m);
 
     % overwrite preosteoclasts and osteoclast equation
     dPC   = 1 - PC*repression(E,params.e_PC)*activation(Sc,params.sc_PC)*params.omega_surg;
