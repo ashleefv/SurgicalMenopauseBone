@@ -9,7 +9,7 @@ C = [c1{1},num2cell(c1{2})].';
 params = struct(C{:});
 
 
-params.t_m =27*365;      % days, Rescaled time parameter, onset time in days: 38 years
+params.t_m =0*365;      % days, Rescaled time parameter, onset time in days: 0
 
 % Estrogen decay surgical menopause parameters
 E_0 = 156;  % picogram/ml initial concentration of estrogen

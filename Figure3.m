@@ -37,7 +37,7 @@ BMD_S=[BMD_pansini, BMD_hibler,BMD_hajidakis ,BMD_yasui,BMD_chitt, BMD_N_ohta]*1
 params.omega_ovx=0; % turn off new effects - no increased differentiation
 if_new_effects=0; % turn off new effects - no increased apoptosis
 if_surgical=0; % natural meno
-initialcond = get_initial_condition(params,if_new_effects); % solve for initial condition of model
+initialcond = get_initial_condition(params,if_new_effects) % solve for initial condition of model
 % solve for BMD dynamics
 [T_n_pre,~,~,BMD_norm_pre,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
 
@@ -206,7 +206,7 @@ plot(T_s/365-params.t_m/365,sol_fit_short(:,4)*100,'g')
 plot(T_s/365-params.t_m/365,sol_fit_long(:,4)*100,'b'); hold on
 
 
-ylabel('Osteoblast \%')
+ylabel('Osteoblasts \%')
 xlim([-5,30])
 
 %Plot ciii

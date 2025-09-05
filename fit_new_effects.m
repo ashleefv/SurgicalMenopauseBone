@@ -13,8 +13,8 @@ read_in_parameters % load model parameters
 
 tend = 50*365; %final time
 tstart=-30*365; %initial time
-t_ref=0*365-1e-3;  % calibration time 25 years
-params.t_m=0*365;% calibration time 25 years
+t_ref=0*365-1e-3;  % calibration time 0 years
+params.t_m=0*365;% calibration time 0 years
 
 
 % Combine into 1 array, surgical data
