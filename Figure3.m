@@ -195,7 +195,7 @@ plot(T_s/365-params.t_m/365,sol_norm_fit(:,3)*100,'k','DisplayName','Model SM: n
 plot(T_s/365-params.t_m/365,sol_fit_short(:,3)*100,'g','DisplayName','Model SM:  fit up to 15 years'); hold on
 plot(T_s/365-params.t_m/365,sol_fit_long(:,3)*100,'b','DisplayName','Model SM: fit up to 30 years')
 legend()
-ylabel('Osteocyte \%')
+ylabel('Osteoclasts \%')
 title("(c)")
 xlim([-5,30])
 
@@ -217,7 +217,7 @@ plot(T_s/365-params.t_m/365,sol_fit_short(:,5)*100,'g')
 plot(T_s/365-params.t_m/365,sol_fit_long(:,5)*100,'b'); hold on
 
 
-ylabel('Osteoclast \%')
+ylabel('Osteocytes \%')
 xlabel('Years since menopause onset')
 xlim([-5,30])
 
