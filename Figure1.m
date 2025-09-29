@@ -6,14 +6,14 @@ close all
 Spine_data; % Import data 
 
 % Combine into 1 array: Natural data 
-t_N=[t_pansini/365,t_looker(4:5)/365-50 t_hajidakis/365-t_hajidakis_onset_N,t_ohta/365-t_ohta_onset/365];
-BMD_N=[BMD_N_pansini, BMD_looker(4:5)', BMD_N_hajidakis,BMD_ohta]*100;
+t_N=[t_pansini/365,t_looker(4:5)/365-50 t_hajidakis/365-t_hajidakis_onset_N,t_N_ohta/365-t_N_ohta_onset/365];
+BMD_N=[BMD_N_pansini, BMD_looker(4:5)', BMD_N_hajidakis,BMD_N_ohta]*100;
 
 % Combine into 1 array: Surgical 
 t_S=[t_pansini/365, t_hibler/365,t_hajidakis/365-t_hajidakis_onset_S,...
     t_yasui_surgery/365-t_yasui_pre_surg/365, t_chitt_surgery_delta/365,...
-    t_N_ohta/365-t_ohta_onset_N/365];
-BMD_S=[BMD_pansini, BMD_hibler,BMD_hajidakis ,BMD_yasui,BMD_chitt, BMD_N_ohta]*100;
+    t_ohta/365-t_ohta_onset/365];
+BMD_S=[BMD_pansini, BMD_hibler,BMD_hajidakis ,BMD_yasui,BMD_chitt, BMD_ohta]*100;
 
 
 % Calulcate linear fit for first 15 years of BMD dynamics for each dataset.
@@ -58,7 +58,6 @@ set(groot,'DefaultAxesFontSize',19);
 
 % Plot data (Natual dotted, surgical solid, early dash-dots)
 close all
-figname = 'figure1';  
 figure_1=figure('units','inch','position',[0,0,16,6]);
 tt = tiledlayout(1,3); 
 
@@ -80,7 +79,7 @@ t=linspace(0,15,100);
 
 plot(t,xN*t+100,'k-.','DisplayName','Fit: -1.55\%/yr'); hold on
 
-errorbar(t_N_ohta/365-t_ohta_onset/365, BMD_N_ohta*100,BMD_ohta_SD*100,...
+errorbar(t_N_ohta/365-t_N_ohta_onset/365, BMD_N_ohta*100,BMD_N_ohta_SD*100,...
     'marker',ohta_marker, 'linestyle','none','color', ohta_color,...
    'MarkerSize',10, 'linewidth',2,'DisplayName','Ohta et al.');
 
@@ -89,8 +88,8 @@ errorbar(t_looker/365-t_looker_onset, BMD_looker*100,BMD_looker_SD*100,...
    'marker',looker_marker,'linestyle','none', 'color',looker_color,...
    'MarkerSize',10, 'linewidth',2,'DisplayName','Looker et al.');
 
-ylim([60,140])
-xlim([-5,30])
+ylim([35,116])
+xlim([0,30])
 
 
 title('(a)')
@@ -99,7 +98,7 @@ ylabel('Normalised BMD \%')
 
 leg=legend;
 title(leg,'Natural menopause')
-leg.Location='northeast';
+leg.Location='south';
 leg.NumColumns = 2;
 
 
@@ -114,7 +113,7 @@ errorbar(t_hibler/365, BMD_hibler*100 ,BMD_hibler_SD*100,...
    'marker',hibler_marker,'linestyle','none','color',hibler_color,'MarkerSize',10, 'linewidth',2,'DisplayName','Hibler et al.');
 
 
-errorbar(t_ohta/365-t_ohta_onset_N/365, BMD_ohta*100, BMD_N_ohta_SD*100,...
+errorbar(t_ohta/365-t_ohta_onset/365, BMD_ohta*100, BMD_ohta_SD*100,...
    'marker',ohta_marker,'linestyle','none','color',ohta_color,'MarkerSize',10, 'linewidth',2,'DisplayName','Ohta et al.');
 
 errorbar(t_yasui_surgery/365-t_yasui_pre_surg/365, BMD_yasui*100,mean_SD*100,...
@@ -136,13 +135,13 @@ ylabel('Normalised BMD \%')
 
 
 
-ylim([60,140])
-xlim([-5,30])
+ylim([35,116])
+xlim([0,30])
 
 
 leg=legend;
 title(leg,'Surgical menopause')
-leg.Location='north';
+leg.Location='south';
 leg.NumColumns = 2; 
 % Create the primary axis in the tile
 axPrimary = nexttile(tt);
@@ -207,5 +206,5 @@ fig.Position = [0.4167 0.8611 17.6389 6.8194];
 
 
 % save figure manually and move legend panel 3 right
-exportgraphics(figure_1,'Fig1.pdf',Resolution=300)
+exportgraphics(figure_1,'Fig1.pdf')
 
