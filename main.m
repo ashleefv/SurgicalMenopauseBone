@@ -11,5 +11,5 @@ tic
 toc
 %
 % 3. Generate figs
-%Figure1
-%Figure3
+Figure1
+Figure3

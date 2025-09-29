@@ -198,7 +198,7 @@ legend()
 ylabel('Osteoclasts \%')
 title("(c)")
 xlim([-5,30])
-ylim([0,650])
+ylim([0,700])
 
 %Plot cii
 nexttile(t4)
@@ -209,7 +209,7 @@ plot(T_s/365-params.t_m/365,sol_fit_long(:,4)*100,'b'); hold on
 
 ylabel('Osteoblasts \%')
 xlim([-5,30])
-ylim([95,101])
+ylim([96,101])
 
 %Plot ciii
 nexttile(t4)
