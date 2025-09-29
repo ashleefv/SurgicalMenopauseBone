@@ -54,6 +54,7 @@ OPTIONS = optimoptions('lsqnonlin','StepTolerance',1e-8,...
 [best_params_all,resnorm,residual,exitflag,output]= lsqnonlin(@(k) ...
     new_params_err(k,params, t_solve_S,t_ref,  if_surgical,...
    if_new_effects,sorted_BMD_S_vector/100) , kguess, lb,ub,OPTIONS)
+RMSE_long = sqrt(resnorm/length(sorted_BMD_S_vector))*100 % units of BMD percentage
 %
 save('fit_effects_long.mat',"best_params_all",'-mat')
 %
@@ -67,6 +68,7 @@ t_solve_S=sort([tstart,t_ref,sorted_t_S_vector,tend]);
     new_params_err(k,params, t_solve_S,t_ref,  if_surgical,...
    if_new_effects,sorted_BMD_S_vector/100) , kguess, lb,ub,OPTIONS);
 
+RMSE_short = sqrt(fit_error_short/length(sorted_BMD_S_vector))*100 % units of BMD percentage
 
 save('fit_effects_short.mat',"best_params_short",'-mat')
 
