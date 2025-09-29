@@ -58,6 +58,7 @@ set(groot,'DefaultAxesFontSize',19);
 
 % Plot data (Natual dotted, surgical solid, early dash-dots)
 close all
+figname = 'figure1';  
 figure_1=figure('units','inch','position',[0,0,16,6]);
 tt = tiledlayout(1,3); 
 
@@ -88,8 +89,8 @@ errorbar(t_looker/365-t_looker_onset, BMD_looker*100,BMD_looker_SD*100,...
    'marker',looker_marker,'linestyle','none', 'color',looker_color,...
    'MarkerSize',10, 'linewidth',2,'DisplayName','Looker et al.');
 
-ylim([35,116])
-xlim([0,30])
+ylim([60,140])
+xlim([-5,30])
 
 
 title('(a)')
@@ -98,7 +99,7 @@ ylabel('Normalised BMD \%')
 
 leg=legend;
 title(leg,'Natural menopause')
-leg.Location='south';
+leg.Location='northeast';
 leg.NumColumns = 2;
 
 
@@ -135,13 +136,13 @@ ylabel('Normalised BMD \%')
 
 
 
-ylim([35,116])
-xlim([0,30])
+ylim([60,140])
+xlim([-5,30])
 
 
 leg=legend;
 title(leg,'Surgical menopause')
-leg.Location='south';
+leg.Location='north';
 leg.NumColumns = 2; 
 % Create the primary axis in the tile
 axPrimary = nexttile(tt);
@@ -206,5 +207,5 @@ fig.Position = [0.4167 0.8611 17.6389 6.8194];
 
 
 % save figure manually and move legend panel 3 right
-exportgraphics(figure_1,'Fig1.pdf')
+exportgraphics(figure_1,'Fig1.pdf',Resolution=300)
 

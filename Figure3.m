@@ -148,7 +148,7 @@ plot(t_N,BMD_N,'r.','MarkerSize',25,'DisplayName','NM data other sources'); hold
 plot(T_n/365-params.t_m/365,BMD_norm_pre*100,'r-.','DisplayName','Model NM:  Jorg et al.')
 plot(T_n/365-params.t_m/365,BMD_normn*100,'r','DisplayName','Model NM: refit Jorg et al.')
 plot(T_s/365-params.t_m/365,BMD_norms*100,'k','DisplayName','Model SM: no new effects')
-ylim([60,120])
+ylim([60,140])
 xlim([-5,30])
 legend()
 
@@ -173,7 +173,7 @@ plot(T_s/365-params.t_m/365,BMD_fit_short*100,'g','DisplayName','Model SM:  fit 
 plot(T_s/365-params.t_m/365,BMD_fit_long*100,'b','DisplayName','Model SM: fit up to 30 years')
 
 xlim([-5,30])
-ylim([60,120])
+ylim([60,140])
 
 kk=patch([T_s(1:200:end);flip(T_s(1:200:end));T_s(1)]/365-params.t_m/365,...
     [BMD_fit_long_lower(1:200:end);flip(BMD_fit_long_upper(1:200:end));BMD_fit_long_lower(1)]*100,'b',FaceAlpha=0.1,EdgeColor='none');
@@ -198,6 +198,7 @@ legend()
 ylabel('Osteoclasts \%')
 title("(c)")
 xlim([-5,30])
+ylim([0,650])
 
 %Plot cii
 nexttile(t4)
@@ -208,6 +209,7 @@ plot(T_s/365-params.t_m/365,sol_fit_long(:,4)*100,'b'); hold on
 
 ylabel('Osteoblasts \%')
 xlim([-5,30])
+ylim([95,101])
 
 %Plot ciii
 nexttile(t4)
@@ -220,5 +222,6 @@ plot(T_s/365-params.t_m/365,sol_fit_long(:,5)*100,'b'); hold on
 ylabel('Osteocytes \%')
 xlabel('Years since menopause onset')
 xlim([-5,30])
+ylim([75, 101])
 
-exportgraphics(figure3,'Fig3.pdf')
+exportgraphics(figure3,'Fig3.pdf', resolution = 300)
