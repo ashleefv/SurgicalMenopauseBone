@@ -55,7 +55,7 @@ t_solve=sort([tstart,t_ref,sorted_t_N_vector,tend]);
 save('refit_bone_params.mat',"refit_bone_params",'-mat')
 
 
-
+resnorm
 
 function [F]=solve_model_varyparam_k(k,params,initialcond, ...
     t_array,t_ref,t_data,if_surgical,if_new_effects,  ...
