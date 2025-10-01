@@ -20,8 +20,8 @@ params.t_m=0*365;% calibration time 0 years
 % Combine into 1 array, surgical data
 t_S=[t_pansini/365, t_hibler/365,t_hajidakis/365-t_hajidakis_onset_S,...
     t_yasui_surgery/365-t_yasui_pre_surg/365, t_chitt_surgery_delta/365,...
-    t_N_ohta/365-t_ohta_onset_N/365];
-BMD_S=[BMD_pansini, BMD_hibler,BMD_hajidakis ,BMD_yasui,BMD_chitt, BMD_N_ohta]*100;
+    t_ohta/365-t_ohta_onset/365];
+BMD_S=[BMD_pansini, BMD_hibler,BMD_hajidakis ,BMD_yasui,BMD_chitt, BMD_ohta]*100;
 
 % Use fitted bone parameters from 'Refit-bone-params.m'
 

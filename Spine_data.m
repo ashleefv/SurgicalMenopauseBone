@@ -83,13 +83,13 @@ BMD_E_hajidakis_SD=(mean_SD-BMD_hajidakis);
 
 %---------------------------------------------------------------------------
 % Ohta 2002 
-BMD_norm=1.059;
+BMD_norm=1.059; %normalized by Yasui BMD, g/cm^2
 
 
 % natural 
 t_N_ohta=[50.99 58.79]*365; % age of women when measured
 t_since_menses_N=[13.9,100]*30; % time since menses for natural in two measurement cases (Days)
-t_ohta_onset_N=t_N_ohta-t_since_menses_N;
+t_N_ohta_onset=t_N_ohta-t_since_menses_N;
 
 % surgical 
 t_ohta=[47.99 55.99]*365; % age of women when measured
