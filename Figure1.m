@@ -77,7 +77,7 @@ errorbar(t_hajidakis/365-t_hajidakis_onset_N, BMD_N_hajidakis*100 ,BMD_N_hajidak
    'marker',hajidakis_marker,'markerfacecolor',hajidakis_color,'linestyle','none','color',hajidakis_color,'MarkerSize',10, 'linewidth',2,'DisplayName','Hajidakis et al.');
 t=linspace(0,15,100);
 
-plot(t,xN*t+100,'k-.','DisplayName','Fit: -1.55\%/yr'); hold on
+plot(t,xN*t+100,'k-.','DisplayName',['Fit: ', num2str(round(xN,2)), '\%/yr']); hold on
 
 errorbar(t_N_ohta/365-t_N_ohta_onset/365, BMD_N_ohta*100,BMD_N_ohta_SD*100,...
     'marker',ohta_marker, 'linestyle','none','color', ohta_color,...
@@ -128,7 +128,7 @@ errorbar(t_hajidakis/365-t_hajidakis_onset_S, BMD_hajidakis*100 ,BMD_hajidakis_S
    'marker',chitt_marker,'markerfacecolor','none','linestyle','none','color',chitt_color,	'MarkerSize',10, 'linewidth',2,'DisplayName','Chittacharoen et al.');
 
 
-plot(t,xS_exd*t+100,'k-.','DisplayName','Fit: -2.01\%/yr')
+plot(t,xS_exd*t+100,'k-.','DisplayName',['Fit: ', num2str(round(xS_exd,2)), '\%/yr'])
 title('(b)')
 xlabel('Years since menopause onset')
 ylabel('Normalised BMD \%')
