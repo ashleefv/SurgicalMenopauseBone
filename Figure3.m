@@ -16,15 +16,15 @@ params.t_m=0*365;% menopause time 0 years
 
 % Combine into one array for plotting: Natural data without the Looker et
 % al dataset.
-t_N=[t_pansini/365, t_hajidakis/365-t_hajidakis_onset_N,t_ohta/365-t_ohta_onset/365]; % years since onset
-BMD_N=[BMD_N_pansini, BMD_N_hajidakis,BMD_ohta]*100; % Relative BMD percentage
+t_N=[t_pansini/365, t_hajidakis/365-t_hajidakis_onset_N,t_N_ohta/365-t_N_ohta_onset/365]; % years since onset
+BMD_N=[BMD_N_pansini, BMD_N_hajidakis,BMD_N_ohta]*100; % Relative BMD percentage
 
 
 % Combine into one array for plotting: Surgical data 
 t_S=[t_pansini/365, t_hibler/365,t_hajidakis/365-t_hajidakis_onset_S,...
     t_yasui_surgery/365-t_yasui_pre_surg/365, t_chitt_surgery_delta/365,...
-    t_N_ohta/365-t_N_ohta_onset/365];% years since onset
-BMD_S=[BMD_pansini, BMD_hibler,BMD_hajidakis ,BMD_yasui,BMD_chitt, BMD_N_ohta]*100;% Relative BMD percentage
+   t_ohta/365-t_ohta_onset/365];% years since onset
+BMD_S=[BMD_pansini, BMD_hibler,BMD_hajidakis ,BMD_yasui,BMD_chitt, BMD_ohta]*100;% Relative BMD percentage
 
 
 % Generate model solutions ------------------------------------
