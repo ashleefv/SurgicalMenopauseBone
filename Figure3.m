@@ -127,14 +127,14 @@ initialcond = get_initial_condition(params,if_new_effects);
 
 %
 % Create plot-----------------------------------------------------------
-
+%
 close all
 
-figure3=figure('units','inch','position',[0,0,16,6]);
-t1 = tiledlayout(1,3,'TileSpacing','Compact');
-t2 = tiledlayout(t1,'flow','TileSpacing','Compact');
-t3 = tiledlayout(t1,'flow','TileSpacing','Compact');
-t4 = tiledlayout(t1,'flow','TileSpacing','Compact');
+figure3=figure('units','inch','position',[0,0,15 ,6]);
+t1 = tiledlayout(1,3,'TileSpacing','tight');
+t2 = tiledlayout(t1,'flow','TileSpacing','tight');
+t3 = tiledlayout(t1,'flow','TileSpacing','tight');
+t4 = tiledlayout(t1,'flow','TileSpacing','tight');
 t4.Layout.Tile = 3;
 t3.Layout.Tile = 2;
 t2.Layout.Tile = 1;
@@ -223,5 +223,6 @@ ylabel('Osteocytes \%')
 xlabel('Years since menopause onset')
 xlim([-5,30])
 ylim([75, 101])
+t1.Padding='compact'
 
 exportgraphics(figure3,'Fig3.pdf', resolution = 300)
