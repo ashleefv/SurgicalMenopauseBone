@@ -58,14 +58,14 @@ best_params_short=best_params_short.best_params_short ;% overwrite struct
 params.e_PC=refit_bone_params(1);%
 params.e_Sc=refit_bone_params(2);%
 
-initialcond = get_initial_condition(params,if_new_effects);
-[T_n,~,sol_norm,BMD_normn,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
-
+initialcond = get_initial_condition(params,if_new_effects)
+[T_n,sol_fit,sol_norm,BMD_normn,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
+%
 % case 3: surgical menopause using new bone parameters but no new effects. 
 
 if_surgical=1; % turns on surgical menopause
 initialcond = get_initial_condition(params,if_new_effects);
-[T_s,~,sol_norm_fit,BMD_norms,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
+[T_s,sol,sol_norm_fit,BMD_norms,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
 %
 
 %Data for plot 2b-----------
@@ -79,7 +79,7 @@ params.tau = best_params_all(2); % timescale of effects
 params.omega_ovx=best_params_all(3);
 initialcond = get_initial_condition(params,if_new_effects);
 
-[~,~,sol_fit_long,BMD_fit_long,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
+[~,sol_long,sol_fit_long,BMD_fit_long,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
 
 % Create upper bound by increasing or decreasing effects by 25%: increase
 % percentages and increase duration by decreasing timescale by 25%.
@@ -105,7 +105,7 @@ params.tau = best_params_short(2);
 params.omega_ovx=best_params_short(3);
 initialcond = get_initial_condition(params,if_new_effects);
 
-[~,~,sol_fit_short,BMD_fit_short,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
+[~,sol_short,sol_fit_short,BMD_fit_short,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
 
  % Create upper bound by increasing or decreasing effects by 25%: increase
 % percentages and increase duration by decreasing timescale by 25%.
@@ -125,28 +125,27 @@ initialcond = get_initial_condition(params,if_new_effects);
 
 [~,~,~,BMD_short_lower,~]=solve_model(params, initialcond, tstart:1:tend, t_ref, if_surgical, if_new_effects);
 
-%
-% Create plot-----------------------------------------------------------
-%
-close all
 
-figure3=figure('units','inch','position',[0,0,15 ,6]);
-t1 = tiledlayout(1,3,'TileSpacing','tight');
-t2 = tiledlayout(t1,'flow','TileSpacing','tight');
-t3 = tiledlayout(t1,'flow','TileSpacing','tight');
-t4 = tiledlayout(t1,'flow','TileSpacing','tight');
-t4.Layout.Tile = 3;
-t3.Layout.Tile = 2;
-t2.Layout.Tile = 1;
+ 
+figure3=figure('units','inch','position',[0,0,15 ,9]);
+set(groot,'DefaultAxesFontSize',20);
 
 
-% Plot a
-nexttile(t2);
+% Create a tiled layout: 4 rows, 2 columns
+t = tiledlayout(4,2);
+t.TileSpacing = 'compact';
+t.Padding = 'compact';
+
+% Square 1 (occupies rows 1-2, column 1)
+ax1 = nexttile(1,[2 1]);  % [rowSpan colSpan]
 plot(t_S,BMD_S,'k.','MarkerSize',25,'DisplayName','SM data'); hold on
-plot(t_looker/365-50, BMD_looker'*100,'ro','DisplayName','NM data Looker et al.',MarkerSize=10)
+
+plot(t_looker/365-50, BMD_looker'*100,'ro','DisplayName','NM data Looker et al.',MarkerSize=10); hold on
 plot(t_N,BMD_N,'r.','MarkerSize',25,'DisplayName','NM data other sources'); hold on
-plot(T_n/365-params.t_m/365,BMD_norm_pre*100,'r-.','DisplayName','Model NM:  Jorg et al.')
-plot(T_n/365-params.t_m/365,BMD_normn*100,'r','DisplayName','Model NM: refit Jorg et al.')
+cut_T_n=(T_n/365-params.t_m/365)
+
+plot(cut_T_n(T_n/365-params.t_m/365<20),BMD_norm_pre(T_n/365-params.t_m/365<20)*100,'r-.','DisplayName','Model NM:  Jorg et al.')
+plot(cut_T_n(T_n/365-params.t_m/365<20),BMD_normn(T_n/365-params.t_m/365<20)*100,'r','DisplayName','Model NM: refit Jorg et al.')
 plot(T_s/365-params.t_m/365,BMD_norms*100,'k','DisplayName','Model SM: no new effects')
 ylim([60,140])
 xlim([-5,30])
@@ -157,8 +156,9 @@ ylabel('Relative BMD \%')
 title("(a)")
 
 
-%Plot b
-nexttile(t3)
+
+% Square 2 (occupies rows 3-4, column 1)
+ax2 = nexttile(5, [2 1]);
 
 long_BMD=BMD_S(t_S>15);
 long_t=t_S(t_S>15);
@@ -189,22 +189,28 @@ ylabel('Relative BMD \%')
 title("(b)")
 
 
+%
+% --- Right Column: Four Rectangles ---
+
 %Plot ci
-nexttile(t4)
+nexttile
 plot(T_s/365-params.t_m/365,sol_norm_fit(:,3)*100,'k','DisplayName','Model SM: no new effects'); hold on
 plot(T_s/365-params.t_m/365,sol_fit_short(:,3)*100,'g','DisplayName','Model SM:  fit up to 15 years'); hold on
 plot(T_s/365-params.t_m/365,sol_fit_long(:,3)*100,'b','DisplayName','Model SM: fit up to 30 years')
 legend()
 ylabel('Osteoclasts \%')
+xlabel('Years since menopause onset')
+
 title("(c)")
 xlim([-5,30])
 ylim([0,700])
 
 %Plot cii
-nexttile(t4)
+nexttile
 plot(T_s/365-params.t_m/365,sol_norm_fit(:,4)*100,'k'); hold on
 plot(T_s/365-params.t_m/365,sol_fit_short(:,4)*100,'g')
 plot(T_s/365-params.t_m/365,sol_fit_long(:,4)*100,'b'); hold on
+xlabel('Years since menopause onset')
 
 
 ylabel('Osteoblasts \%')
@@ -212,7 +218,7 @@ xlim([-5,30])
 ylim([96,101])
 
 %Plot ciii
-nexttile(t4)
+nexttile
 plot(T_s/365-params.t_m/365,sol_norm_fit(:,5)*100,'k'); hold on
 
 plot(T_s/365-params.t_m/365,sol_fit_short(:,5)*100,'g')
@@ -223,6 +229,20 @@ ylabel('Osteocytes \%')
 xlabel('Years since menopause onset')
 xlim([-5,30])
 ylim([75, 101])
-t1.Padding='compact'
+% t1.Padding='compact'
+xlabel('Years since menopause onset')
 
+
+nexttile
+
+plot(T_s/365-params.t_m/365,sol_norm_fit(:,6)*100,'k'); hold on
+plot(T_s/365-params.t_m/365,sol_fit_short(:,6)*100,'g')
+plot(T_s/365-params.t_m/365,sol_fit_long(:,6)*100,'b'); hold on
+
+
+ylabel('Sclerostin \%')
+xlabel('Years since menopause onset')
+xlim([-5,30])
+ylim([80, 120])
+% t1.Padding='compact'
 exportgraphics(figure3,'Fig3.pdf', resolution = 300)
